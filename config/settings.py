@@ -44,7 +44,6 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-SITE_ID = 1
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -52,15 +51,22 @@ REST_FRAMEWORK = {
     )
 }
 
+# DJ-REST-AUTH
 REST_USE_JWT = True
 REST_SESSION_LOGIN = False # Without this you will also get a cookie with sessionId and CSRF, need to handle csrf elsewhere
 
-# These are in the default installation but we don't want them, they send jwt in cookie
-# JWT_AUTH_COOKIE = None 
-# JWT_AUTH_REFRESH_COOKIE = None
+# These are in the default installation but we don't want them, they will send token in cookie
+JWT_AUTH_COOKIE = None 
+JWT_AUTH_REFRESH_COOKIE = None
 
+#ALLAUTH
 ACCOUNT_EMAIL_REQUIRED = True # Allauth checks this for registration
+ACCOUNT_PRESERVE_USERNAME_CASING = False # store usernames in lowercase for faster querying
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # prevents connection refused error for registration (outputs email to console)
 
+SITE_ID = 1 # Site framework is required by allauth
+
+#SIMPLEJWT
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
