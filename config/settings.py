@@ -59,6 +59,8 @@ REST_SESSION_LOGIN = False # Without this you will also get a cookie with sessio
 # JWT_AUTH_COOKIE = None 
 # JWT_AUTH_REFRESH_COOKIE = None
 
+ACCOUNT_EMAIL_REQUIRED = True # Allauth checks this for registration
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
