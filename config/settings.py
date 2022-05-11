@@ -37,13 +37,13 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth.registration',
     'rest_framework_simplejwt',
+    'corsheaders',
 
     #Local
     'users',
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -60,9 +60,12 @@ JWT_AUTH_COOKIE = None
 JWT_AUTH_REFRESH_COOKIE = None
 
 #ALLAUTH
-ACCOUNT_EMAIL_REQUIRED = True # Allauth checks this for registration
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_REQUIRED = True # requires user to provide email on signup
 ACCOUNT_PRESERVE_USERNAME_CASING = False # store usernames in lowercase for faster querying
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # prevents connection refused error for registration (outputs email to console)
+ACCOUNT_ADAPTER = 'config.adapters.DefaultAccountAdapterCustom'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # prevents connection refused error for registration if email enabled (outputs email to console)
+
 
 SITE_ID = 1 # Site framework is required by allauth
 
@@ -105,11 +108,17 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# must be after middleware
+CORS_ALLOWED_ORIGINS = (
+    "http://localhost:3000",
+)
 
 ROOT_URLCONF = 'config.urls'
 
